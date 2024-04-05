@@ -1,30 +1,29 @@
 class Position:
-    def __init__(self, x: int, y: int):
-        self._x = x
-        self._y = y
+    def __init__(self, row, column):
+        self.row = row
+        self.column = column
 
-    @property
-    def x(self):
-        return self._x
+    def move_up(self):
+        return Position(self.row - 1, self.column)
 
-    @x.setter
-    def x(self, value):
-        self._x = value
+    def move_down(self):
+        return Position(self.row + 1, self.column)
 
-    @property
-    def y(self):
-        return self._y
+    def move_left(self):
+        return Position(self.row, self.column - 1)
 
-    @y.setter
-    def y(self, value):
-        self._y = value
+    def move_right(self):
+        return Position(self.row, self.column + 1)
 
-    def change_position(self, new_x: int, new_y: int):
-        self._x = new_x
-        self._y = new_y
+    def is_within(self, dimension):
+        filas, columnas = dimension
+        return 0 <= self.fila < filas and 0 <= self.columna < columnas
 
     def __eq__(self, other):
-        return self.x == other.x and self.y == other.y
+        return isinstance(other, Position) and self.row == other.row and self.column == other.column
 
-    def __str__(self):
-        return f"({self.x}, {self.y})"
+    def __hash__(self):
+        return hash((self.row, self.column))
+
+    def __repr__(self):
+        return f"({self.row}, {self.column})"
