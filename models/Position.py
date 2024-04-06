@@ -17,7 +17,7 @@ class Position:
 
     def is_within(self, dimension):
         filas, columnas = dimension
-        return 0 <= self.fila < filas and 0 <= self.columna < columnas
+        return 0 <= self.row < filas and 0 <= self.column < columnas
 
     def __eq__(self, other):
         return isinstance(other, Position) and self.row == other.row and self.column == other.column

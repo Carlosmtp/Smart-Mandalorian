@@ -32,6 +32,9 @@ class World:
     def is_within_bounds(self, position):
         return position.is_within_bounds(self.dimension)
 
+    def remove_ship(self):
+        self.ship_position = None
+
     def print_world(self):
         for row in self.matrix:
             print(" ".join(str(num) for num in row))
