@@ -3,7 +3,7 @@ import os
 import time
 
 class SearchGUI:
-    def __init__(self, path, mandalorian_moves):
+    def __init__(self, path, search_results):
         os.environ['SDL_VIDEO_CENTERED'] = '1'
         pygame.init()
         self.empty = pygame.transform.scale(pygame.image.load('../images/empty.png'), (40, 40))
@@ -12,10 +12,11 @@ class SearchGUI:
         self.mandalorian = pygame.transform.scale(pygame.image.load('../images/mandalorian.png'), (40, 40))
         self.ship = pygame.transform.scale(pygame.image.load('../images/ship.png'), (40, 40))
         self.enemy = pygame.transform.scale(pygame.image.load('../images/enemy.png'), (40, 40))
+        self.background = pygame.image.load('../images/search_background.png')
         self.screen = pygame.display.set_mode((800,400))
         self.screen.fill((255,255,255))
         self.tablero = [[0 for _ in range(10)] for _ in range(10)]
-        self.mandalorian_moves = mandalorian_moves
+        self.mandalorian_moves, self.expanded_nodes, self.depth, self.computation_time, self.cost = search_results
 
         with open(path, 'r') as file:
             testfile = file.read().replace(" ", "").replace("\n", "") 
@@ -25,11 +26,17 @@ class SearchGUI:
 
     def draw_tablero(self):
         pygame.display.set_caption("Búsqueda")
-        move_index = 0  # Indice para recorrer la lista de movimientos del mandaloriano
+        move_index = 0
+        font = pygame.font.Font(None, 30)  
+        nodes = font.render("Nodos Expandidos: " + str(self.expanded_nodes), True, (255, 255, 255))  
+        depth_title = font.render("Profundidad: " + str(self.depth), True, (255, 255, 255))
+        compute_time_title = font.render("Tiempo de Computo: " + str(round(self.computation_time, 7)), True, (255, 255, 255))
+        cost = font.render("Costo: " + str(self.cost), True, (255, 255, 255))
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit()       
+                    pygame.quit()
+                    return    
             for i in range(10):
                 for j in range(10):
                     if self.tablero[i][j] == 0 or self.tablero[i][j] == 2:
@@ -42,12 +49,21 @@ class SearchGUI:
                         self.screen.blit(self.enemy, (j*40, i*40))
                     elif self.tablero[i][j] == 5:
                         self.screen.blit(self.grogu, (j*40, i*40))
+            for i in range(10):
+                for j in range(10, 20):
+                    self.screen.blit(self.background, (j*40, i*40))
 
-            # Verificamos si hay movimientos del mandaloriano y lo dibujamos
             if move_index < len(self.mandalorian_moves):
                 move = self.mandalorian_moves[move_index]
                 self.screen.blit(self.mandalorian, (move.column*40, move.row*40))
                 move_index += 1
                 self.tablero[move.row][move.column] = self.tablero[move.row][move.column]
-                pygame.display.flip()
-            time.sleep(0.5)  # Esperamos un momento antes de realizar el próximo movimiento
+            else:
+                self.screen.blit(self.mandalorian, (self.mandalorian_moves[-1].column*40, self.mandalorian_moves[-1].row*40))
+            
+            self.screen.blit(nodes, (450, 100))
+            self.screen.blit(depth_title, (450, 150))
+            self.screen.blit(compute_time_title, (450, 200))
+            self.screen.blit(cost, (450, 250))
+            pygame.display.flip()
+            time.sleep(0.5)  

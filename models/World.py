@@ -1,4 +1,3 @@
-from Mandalorian import Mandalorian
 from Position import Position
 class World:
     def __init__(self, file):
@@ -30,7 +29,10 @@ class World:
         return self.get_tile(position) == 0
 
     def is_within_bounds(self, position):
-        return position.is_within_bounds(self.dimension)
+        return position.is_within(self.dimension)
+    
+    def is_wall(self, position):
+        return self.get_tile(position) == 1
 
     def remove_ship(self):
         self.ship_position = None

@@ -1,29 +1,37 @@
 import tkinter as tk
 from tkinter import filedialog
 from PIL import Image, ImageTk
-from Mandalorian import Mandalorian
 from World import World
-from Position import Position
 from SearchGUI import SearchGUI
+from UninformedSearch import *
+from InformedSearch import *
 import os
 
 class GUI:
     def __init__(self, master):
+        # Configurar ventana principal
         self.master = master
+        screen_width = self.master.winfo_screenwidth()
+        screen_height = self.master.winfo_screenheight()
+        window_width = 1280
+        window_height = 720
         self.master.title("Smart Mandalorian")
-        self.master.geometry("1280x720")
-        self.master.resizable(False, False)
+        self.master.geometry(f"{window_width}x{window_height}")
+        self.master.maxsize(window_width, window_height)
+        self.master.minsize(window_width, window_height)
+        x = (screen_width // 2) - (window_width // 2)
+        y = (screen_height // 2) - (window_height // 2)
+        self.master.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
         # Cargar imagen de fondo
         self.background_image = Image.open("../images/background.png")
-        self.background_image = self.background_image.resize((1280, 720), Image.BICUBIC)
+        self.background_image = self.background_image.resize((window_width, window_height), Image.BICUBIC)
         self.background_photo = ImageTk.PhotoImage(self.background_image)
         self.background_label = tk.Label(master, image=self.background_photo)
         self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
-
+        
         # Inicializar variables
         self.world = None
-        self.mandalorian = None
         self.search_algorithm = None
 
         # Crear botones
@@ -50,19 +58,15 @@ class GUI:
         self.btn_run_algorithm.place(x=200, y=475)
         self.btn_run_algorithm.config(state=tk.DISABLED)
 
+    # Función para cargar el archivo de mundo
     def load_world(self):
-        file_path = filedialog.askopenfilename()
+        file_path = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt")], title="Seleccionar Archivo de Mundo", initialdir="../test")
         if file_path:
-            # Obtener la ruta relativa
             relative_path = os.path.relpath(file_path)
-            # Mostrar la ruta relativa
             self.lbl_file_name.config(text=relative_path)
-            # Crear instancia del mundo
-            self.world = World(file_path)
-            self.world.print_world()
-            self.mandalorian = Mandalorian(self.world)
             self.algorithm_menu.config(state=tk.NORMAL)
-
+            
+    # Función para mostrar las opciones de algoritmos según el tipo de búsqueda seleccionado
     def show_algorithm_options(self, selection):
         if selection == "No Informada":
             algorithms = ["Amplitud", "Costo Uniforme", "Profundidad Evitando Ciclos"]
@@ -83,16 +87,28 @@ class GUI:
         # Habilitar el botón de ejecución de algoritmo
         self.btn_run_algorithm.config(state=tk.NORMAL)
 
+    # Función para ejecutar el algoritmo seleccionado
     def run_algorithm(self):
-        ##selected_algorithm = self.algorithm_options_var.get()
-        mandalorian_moves = [
-            Position(2, 3),
-            Position(2, 4),
-            Position(3, 4),
-            Position(3, 5)
-        ]
-        search = SearchGUI(self.lbl_file_name.cget("text"), mandalorian_moves)
+        selected_algorithm = self.algorithm_options_var.get()
+        try:
+            self.world = World(self.lbl_file_name.cget("text"))
+        except Exception as e:
+            tk.messagebox.showerror("Error", "Archivo de Mundo Inválido")
+            return
+        if selected_algorithm == "Amplitud":
+            search_results = BreadthFirstSearch(self.world)
+        elif selected_algorithm == "Costo Uniforme":
+            search_results = UniformCostSearch(self.world)
+        elif selected_algorithm == "Profundidad Evitando Ciclos":
+            search_results = DepthFirstSearch(self.world)
+        elif selected_algorithm == "Avara":
+            search_results = GreedySearch(self.world)
+        elif selected_algorithm == "A*":
+            search_results = AStarSearch(self.world)
+        search = SearchGUI(self.lbl_file_name.cget("text"), search_results)
+        self.master.withdraw()
         search.draw_tablero()
+        self.master.deiconify()
 
 def main():
     root = tk.Tk()
@@ -101,5 +117,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-mundo = World("../test/test1.txt")

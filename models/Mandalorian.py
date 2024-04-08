@@ -1,10 +1,30 @@
+from World import World
 class Mandalorian:
-    def __init__(self, world):
+    def __init__(self, world, parent, operator, depth, cost):
         self.world = world
+        self.parent = parent
+        self.operator = operator
+        self.depth = depth
+        self.cost = cost
         self.current_position = world.start_position
         self.in_ship = False
         self.fuel = 10
 
+    def getParent(self):
+        return self.parent
+    
+    def getOperator(self):
+        return self.operator
+    
+    def getDepth(self):
+        return self.depth
+    
+    def getCost(self):
+        return self.cost
+    
+    def getWorld(self):
+        return self.state
+    
     def move(self, new_position):
         if self.in_ship:
             move_cost = 0.5
@@ -26,7 +46,7 @@ class Mandalorian:
     def move_up(self):
         new_position = self.current_position.move_up()
         if self.world.is_within_bounds(new_position):
-            self.move(new_position)
+            return self.move(new_position)
 #        else:
 #            print("Imposible mover hacia arriba. Fuera de los límites.")
 
@@ -56,15 +76,22 @@ class Mandalorian:
         moves = []
         position = self.current_position
         world = self.world
-
-        if world.is_within_bounds(position.move_up()):
-            moves.append(position.move_up())
-        if world.is_within_bounds(position.move_down()):
-            moves.append(position.move_down())
-        if world.is_within_bounds(position.move_left()):
-            moves.append(position.move_left())
-        if world.is_within_bounds(position.move_right()):
-            moves.append(position.move_right())
+        if world.is_within_bounds(position.move_up()) and world.is_wall(position.move_up()) == False:
+            new_mandalorian = Mandalorian(world, self, 0, self.getDepth() + 1, 1)
+            new_mandalorian.current_position = position.move_up()
+            moves.append(new_mandalorian)
+        if world.is_within_bounds(position.move_down()) and world.is_wall(position.move_down()) == False:
+            new_mandalorian = Mandalorian(world, self, 0, self.getDepth() + 1, 1)
+            new_mandalorian.current_position = position.move_down()
+            moves.append(new_mandalorian)
+        if world.is_within_bounds(position.move_left()) and world.is_wall(position.move_left()) == False:
+            new_mandalorian = Mandalorian(world, self, 0, self.getDepth() + 1, 1)
+            new_mandalorian.current_position = position.move_left()
+            moves.append(new_mandalorian)
+        if world.is_within_bounds(position.move_right()) and world.is_wall(position.move_right()) == False:
+            new_mandalorian = Mandalorian(world, self, 0, self.getDepth() + 1, 1)
+            new_mandalorian.current_position = position.move_right()
+            moves.append(new_mandalorian)
 
         return moves
 
@@ -76,3 +103,11 @@ class Mandalorian:
 
     def is_in_ship(self):
         return self.current_position == self.world.ship_position
+
+    def __eq__(self, other):
+        if isinstance(other, Mandalorian):
+            return self.current_position == other.current_position
+        return False
+    
+    def __hash__(self):
+        return hash(self.current_position)
