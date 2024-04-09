@@ -4,6 +4,20 @@ import time
 
 class SearchGUI:
     def __init__(self, path, search_results, algorithm):
+        """
+        Inicializa la interfaz gráfica de búsqueda.
+
+        Args:
+            path (str): La ruta del archivo de prueba.
+            search_results (tuple): Una tupla que contiene los resultados de la búsqueda.
+                Los resultados deben estar en el siguiente orden:
+                - mandalorian_moves (list): Lista de movimientos del Mandalorian.
+                - expanded_nodes (int): Número de nodos expandidos durante la búsqueda.
+                - depth (int): Profundidad de la solución encontrada.
+                - computation_time (float): Tiempo de cómputo de la búsqueda.
+                - cost (int): Costo de la solución encontrada.
+            algorithm (str): El algoritmo de búsqueda utilizado.
+        """
         os.environ['SDL_VIDEO_CENTERED'] = '1'
         pygame.init()
         self.empty = pygame.transform.scale(pygame.image.load('../images/empty.png'), (40, 40))
@@ -27,6 +41,9 @@ class SearchGUI:
                 self.tablero[i][j] = int(testfile[i*10+j])
 
     def draw_tablero(self):
+        """
+        Dibuja el tablero y muestra los resultados de la búsqueda en la interfaz gráfica.
+        """
         pygame.display.set_caption(self.algo.upper())
         move_index = 0
         ship_trip = 0

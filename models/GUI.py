@@ -8,7 +8,25 @@ from InformedSearch import *
 import os
 
 class GUI:
+    """
+    Clase que representa la interfaz gráfica de usuario (GUI) para la aplicación Smart Mandalorian.
+
+    Args:
+        master: La ventana principal de la GUI.
+
+    Methods:
+        __init__: Inicializa la GUI.
+        load_world: Abre un cuadro de diálogo para cargar un archivo de mundo.
+        show_algorithm_options: Muestra las opciones de algoritmos según el tipo de búsqueda seleccionado.
+        run_algorithm: Ejecuta el algoritmo de búsqueda seleccionado.
+    """
     def __init__(self, master):
+        """
+        Inicializa la GUI.
+
+        Args:
+            master: La ventana principal de la GUI.
+        """
         # Configurar ventana principal
         self.master = master
         screen_width = self.master.winfo_screenwidth()
@@ -58,16 +76,23 @@ class GUI:
         self.btn_run_algorithm.place(x=200, y=475)
         self.btn_run_algorithm.config(state=tk.DISABLED)
 
-    # Función para cargar el archivo de mundo
     def load_world(self):
+        """
+        Abre un cuadro de diálogo para cargar un archivo de mundo.
+        """
         file_path = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt")], title="Seleccionar Archivo de Mundo", initialdir="../test")
         if file_path:
             relative_path = os.path.relpath(file_path)
             self.lbl_file_name.config(text=relative_path)
             self.algorithm_menu.config(state=tk.NORMAL)
             
-    # Función para mostrar las opciones de algoritmos según el tipo de búsqueda seleccionado
     def show_algorithm_options(self, selection):
+        """
+        Muestra las opciones de algoritmos según el tipo de búsqueda seleccionado.
+
+        Args:
+            selection: El tipo de búsqueda seleccionado.
+        """
         if selection == "No Informada":
             algorithms = ["Amplitud", "Costo Uniforme", "Profundidad Evitando Ciclos"]
         elif selection == "Informada":
@@ -87,8 +112,10 @@ class GUI:
         # Habilitar el botón de ejecución de algoritmo
         self.btn_run_algorithm.config(state=tk.NORMAL)
 
-    # Función para ejecutar el algoritmo seleccionado
     def run_algorithm(self):
+        """
+        Ejecuta el algoritmo de búsqueda seleccionado.
+        """
         selected_algorithm = self.algorithm_options_var.get()
         try:
             self.world = World(self.lbl_file_name.cget("text"))

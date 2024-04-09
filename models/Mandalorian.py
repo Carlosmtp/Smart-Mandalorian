@@ -1,5 +1,17 @@
 class Mandalorian:
     def __init__(self, world, parent, operator, depth, cost, fuel):
+        """
+        Inicializa una instancia de la clase Mandalorian, que representa un nodo
+        en los algoritmos de búsqueda.
+
+        Args:
+            world (World): El mundo en el que se encuentra el Mandalorian.
+            parent (Mandalorian): El Mandalorian padre.
+            operator (int): El operador utilizado para llegar a esta instancia.
+            depth (int): La profundidad de esta instancia en el árbol de búsqueda.
+            cost (float): El costo de esta instancia.
+            fuel (int): La cantidad de combustible del Mandalorian.
+        """
         self.world = world
         self.parent = parent
         self.operator = operator
@@ -14,49 +26,109 @@ class Mandalorian:
             self.in_ship = False
 
     def getParent(self):
+        """
+        Obtiene el Mandalorian padre.
+
+        Returns:
+            Mandalorian: El Mandalorian padre.
+        """
         return self.parent
     
     def getOperator(self):
+        """
+        Obtiene el operador utilizado para llegar a esta instancia.
+
+        Returns:
+            int: El operador utilizado.
+        """
         return self.operator
     
     def is_in_ship(self):
+        """
+        Verifica si el Mandalorian está dentro de la nave.
+
+        Returns:
+            bool: True si el Mandalorian está dentro de la nave, False en caso contrario.
+        """
         return self.in_ship
     
     def getDepth(self):
+        """
+        Obtiene la profundidad de esta instancia en el árbol de búsqueda.
+
+        Returns:
+            int: La profundidad de esta instancia.
+        """
         return self.depth
     
     def getCost(self):
+        """
+        Obtiene el costo acumulado de la instancia.
+
+        Returns:
+            float: El costo acumulado.
+        """
         return self.cost
     
     def getWorld(self):
+        """
+        Obtiene el mundo en el que se encuentra el Mandalorian.
+
+        Returns:
+            World: El mundo en el que se encuentra el Mandalorian.
+        """
         return self.state
     
     def move(self, new_position):
+        """
+        Mueve al Mandalorian a una nueva posición.
+
+        Args:
+            new_position (Position): La nueva posición a la que se moverá el Mandalorian.
+        """
         if self.world.in_ship(new_position):
             self.board_ship()
         self.current_position = new_position
 
     def move_up(self):
+        """
+        Mueve al Mandalorian hacia arriba.
+        """
         new_position = self.current_position.move_up()
         if self.world.is_within_bounds(new_position):
             self.move(new_position)
 
     def move_down(self):
+        """
+        Mueve al Mandalorian hacia abajo.
+        """
         new_position = self.current_position.move_down()
         if self.world.is_within_bounds(new_position):
             self.move(new_position)
 
     def move_left(self):
+        """
+        Mueve al Mandalorian hacia la izquierda.
+        """
         new_position = self.current_position.move_left()
         if self.world.is_within_bounds(new_position):
             self.move(new_position)
 
     def move_right(self):
+        """
+        Mueve al Mandalorian hacia la derecha.
+        """
         new_position = self.current_position.move_right()
         if self.world.is_within_bounds(new_position):
             self.move(new_position)
 
     def possible_moves(self):
+        """
+        Obtiene los posibles movimientos que puede realizar el Mandalorian.
+
+        Returns:
+            list[Mandalorian]: Lista de instancias de Mandalorian que representan los posibles movimientos.
+        """
         moves = []
         position = self.current_position
         world = self.world
@@ -92,23 +164,40 @@ class Mandalorian:
         return moves
     
     def calculate_cost(self, position):
+        """
+        Calcula el costo para moverse a una posición específica.
+
+        Args:
+            position (Position): La posición a la que se desea mover.
+
+        Returns:
+            float: El costo para moverse a la posición especificada.
+        """
         if self.in_ship and self.fuel > 0:
             return 0.5
         elif self.world.is_enemy(position):
             return 5
         return 1
-               
-    def leave_ship(self):
-        self.in_ship = False
-        self.fuel = 0
-
-    def is_in_ship(self):
-        return self.in_ship
 
     def __eq__(self, other):
+        """
+        Compara si dos instancias de Mandalorian son iguales.
+
+        Args:
+            other (Mandalorian): La otra instancia de Mandalorian a comparar.
+
+        Returns:
+            bool: True si las instancias son iguales, False en caso contrario.
+        """
         if isinstance(other, Mandalorian):
             return (self.current_position == other.current_position) and (self.in_ship == other.in_ship)
         return False
     
     def __hash__(self):
+        """
+        Obtiene el hash de la instancia de Mandalorian.
+
+        Returns:
+            int: El hash de la instancia.
+        """
         return hash(self.current_position)
