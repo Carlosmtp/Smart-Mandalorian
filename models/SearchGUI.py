@@ -12,6 +12,7 @@ class SearchGUI:
             search_results (tuple): Una tupla que contiene los resultados de la búsqueda.
                 Los resultados deben estar en el siguiente orden:
                 - mandalorian_moves (list): Lista de movimientos del Mandalorian.
+                - tree_nodes (int): Número de nodos del arbol de búsqueda.
                 - expanded_nodes (int): Número de nodos expandidos durante la búsqueda.
                 - depth (int): Profundidad de la solución encontrada.
                 - computation_time (float): Tiempo de cómputo de la búsqueda.
@@ -32,7 +33,7 @@ class SearchGUI:
         self.screen.fill((255,255,255))
         self.tablero = [[0 for _ in range(10)] for _ in range(10)]
         self.algo = algorithm
-        self.mandalorian_moves, self.expanded_nodes, self.depth, self.computation_time, self.cost = search_results
+        self.mandalorian_moves, self.tree_nodes, self.expanded_nodes, self.depth, self.computation_time, self.cost = search_results
 
         with open(path, 'r') as file:
             testfile = file.read().replace(" ", "").replace("\n", "") 
@@ -50,7 +51,8 @@ class SearchGUI:
         title = pygame.font.Font(None, 36)
         font = pygame.font.Font(None, 30)
         title = font.render(self.algo.upper(), True, (255, 255, 255))  
-        nodes = font.render("Nodos Expandidos: " + str(self.expanded_nodes), True, (255, 255, 255))  
+        tree = font.render("Nodos del Arbol: " + str(self.tree_nodes), True, (255, 255, 255))
+        expanded = font.render("Nodos Expandidos: " + str(self.expanded_nodes), True, (255, 255, 255))  
         depth_title = font.render("Profundidad: " + str(self.depth), True, (255, 255, 255))
         compute_time_title = font.render("Tiempo de Computo: " + str(round(self.computation_time, 7)), True, (255, 255, 255))
         cost = font.render("Costo: " + str(self.cost), True, (255, 255, 255))
@@ -89,10 +91,11 @@ class SearchGUI:
                 self.tablero[move.row][move.column] = self.tablero[move.row][move.column]
             else:
                 self.screen.blit(self.mandalorian, (self.mandalorian_moves[-1].column*40, self.mandalorian_moves[-1].row*40))
-            self.screen.blit(title, (450, 50))
-            self.screen.blit(nodes, (450, 120))
-            self.screen.blit(depth_title, (450, 190))
-            self.screen.blit(compute_time_title, (450, 260))
-            self.screen.blit(cost, (450, 340))
+            self.screen.blit(title, (450, 40))
+            self.screen.blit(tree, (450, 100))
+            self.screen.blit(expanded, (450, 140))
+            self.screen.blit(depth_title, (450, 180))
+            self.screen.blit(compute_time_title, (450, 220))
+            self.screen.blit(cost, (450, 260))
             pygame.display.flip()
             time.sleep(1)
