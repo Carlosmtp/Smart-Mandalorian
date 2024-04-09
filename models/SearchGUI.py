@@ -52,7 +52,7 @@ class SearchGUI:
             for i in range(10):
                 for j in range(10, 20):
                     self.screen.blit(self.background, (j*40, i*40))
-
+                    
             if move_index < len(self.mandalorian_moves):
                 move = self.mandalorian_moves[move_index]
                 self.screen.blit(self.mandalorian, (move.column*40, move.row*40))
@@ -60,10 +60,9 @@ class SearchGUI:
                 self.tablero[move.row][move.column] = self.tablero[move.row][move.column]
             else:
                 self.screen.blit(self.mandalorian, (self.mandalorian_moves[-1].column*40, self.mandalorian_moves[-1].row*40))
-            
             self.screen.blit(nodes, (450, 100))
             self.screen.blit(depth_title, (450, 150))
             self.screen.blit(compute_time_title, (450, 200))
             self.screen.blit(cost, (450, 250))
             pygame.display.flip()
-            time.sleep(0.5)  
+            time.sleep(1)

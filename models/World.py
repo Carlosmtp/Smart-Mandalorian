@@ -27,6 +27,12 @@ class World:
 
     def is_empty(self, position):
         return self.get_tile(position) == 0
+    
+    def is_enemy(self, position):
+        return position in self.enemies
+    
+    def in_ship(self, position):
+        return position == self.ship_position
 
     def is_within_bounds(self, position):
         return position.is_within(self.dimension)

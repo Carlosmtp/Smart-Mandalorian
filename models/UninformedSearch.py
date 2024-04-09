@@ -12,32 +12,33 @@ import Funciones
 
 
 def BreadthFirstSearch(world):
-    root = Mandalorian(world, None,  None, 0, 0)
+    root = Mandalorian(world, None,  None, 0, 0, 0)
     tree = queue.Queue()
     tree.put(root)
     explored = set()
     expanded_nodes = 0
-
     start_time = time.time()
-
     while not tree.empty():
         current = tree.get()
-        expanded_nodes += 1
         if Funciones.is_grogu(current, world):
             path = []
+            cost = 0
             while current.parent is not None:
                 path.append(current.current_position)
+                cost += current.cost
                 current = current.parent
             path.append(current.current_position)
             path.reverse()
             end_time = time.time()
             computation_time = end_time - start_time
-            return path, expanded_nodes, len(path), computation_time, len(path)
-        for next in current.possible_moves():
-            if next not in explored:
-                tree.put(next)
-                explored.add(next)
-                
+            return path, expanded_nodes, len(path)-1, computation_time, cost
+        else:
+            for next in current.possible_moves():
+                if next not in explored:
+                    expanded_nodes += 1
+                    tree.put(next)
+                    explored.add(next)
+
 def UniformCostSearch(world):
     return
 
