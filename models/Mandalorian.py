@@ -107,7 +107,7 @@ class Mandalorian:
 
     def __eq__(self, other):
         if isinstance(other, Mandalorian):
-            return self.current_position == other.current_position
+            return (self.current_position == other.current_position) and (self.in_ship == other.in_ship)
         return False
     
     def __hash__(self):
