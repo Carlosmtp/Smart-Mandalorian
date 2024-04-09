@@ -59,10 +59,12 @@ def DepthFirstSearch(world):
     tree = []
     tree.append(root)
     explored = set()
+    explored_in_branch = set()
     expanded_nodes = 0
     start_time = time.time()
     while tree:
         current = tree.pop()
+        explored_in_branch = set()
         if is_grogu(current, world):
             end_time = time.time()
             path, cost = reconstruct_solution(current)
@@ -70,7 +72,8 @@ def DepthFirstSearch(world):
             return path, expanded_nodes, len(path)-1, computation_time, cost
         else:
             for next in current.possible_moves():
-                if next not in explored:
+                if next not in explored and next not in explored_in_branch:
                     expanded_nodes += 1
                     tree.append(next)
-                    explored.add(next)
+                    explored_in_branch.add(next)
+            explored.add(current)
