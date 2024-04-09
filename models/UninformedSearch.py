@@ -11,6 +11,7 @@ def BreadthFirstSearch(world):
 
     Retorna:
     - path: El camino encontrado desde el estado inicial hasta el estado objetivo.
+    - tree_nodes: El número de nodos en el árbol de búsqueda.
     - expanded_nodes: El número de nodos expandidos durante la búsqueda.
     - depth: La profundidad del camino encontrado.
     - computation_time: El tiempo de computación utilizado para realizar la búsqueda.
@@ -47,6 +48,7 @@ def UniformCostSearch(world):
 
     Retorna:
     - path: El camino encontrado desde el estado inicial hasta el estado objetivo.
+    - tree_nodes: El número de nodos en el árbol de búsqueda.
     - expanded_nodes: El número de nodos expandidos durante la búsqueda.
     - depth: La profundidad del camino encontrado.
     - computation_time: El tiempo de computación utilizado para realizar la búsqueda.
@@ -84,6 +86,7 @@ def DepthFirstSearch(world):
 
     Retorna:
     - path: El camino encontrado desde el estado inicial hasta el estado objetivo.
+    - tree_nodes: El número de nodos en el árbol de búsqueda.
     - expanded_nodes: El número de nodos expandidos durante la búsqueda.
     - depth: La profundidad del camino encontrado.
     - computation_time: El tiempo de computación utilizado para realizar la búsqueda.
