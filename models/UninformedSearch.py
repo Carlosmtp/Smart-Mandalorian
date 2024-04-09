@@ -1,7 +1,5 @@
-import queue
 import time
 from Mandalorian import Mandalorian
-from World import World
 from Funciones import is_grogu, reconstruct_solution
 
 # Este archivo contiene la implementación correspondiente a los
