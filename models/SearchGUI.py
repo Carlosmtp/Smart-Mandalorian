@@ -3,7 +3,7 @@ import os
 import time
 
 class SearchGUI:
-    def __init__(self, path, search_results):
+    def __init__(self, path, search_results, algorithm):
         os.environ['SDL_VIDEO_CENTERED'] = '1'
         pygame.init()
         self.empty = pygame.transform.scale(pygame.image.load('../images/empty.png'), (40, 40))
@@ -17,6 +17,7 @@ class SearchGUI:
         self.screen = pygame.display.set_mode((800,400))
         self.screen.fill((255,255,255))
         self.tablero = [[0 for _ in range(10)] for _ in range(10)]
+        self.algo = algorithm
         self.mandalorian_moves, self.expanded_nodes, self.depth, self.computation_time, self.cost = search_results
 
         with open(path, 'r') as file:
@@ -26,10 +27,12 @@ class SearchGUI:
                 self.tablero[i][j] = int(testfile[i*10+j])
 
     def draw_tablero(self):
-        pygame.display.set_caption("Búsqueda")
+        pygame.display.set_caption(self.algo.upper())
         move_index = 0
         ship_trip = 0
-        font = pygame.font.Font(None, 30)  
+        title = pygame.font.Font(None, 36)
+        font = pygame.font.Font(None, 30)
+        title = font.render(self.algo.upper(), True, (255, 255, 255))  
         nodes = font.render("Nodos Expandidos: " + str(self.expanded_nodes), True, (255, 255, 255))  
         depth_title = font.render("Profundidad: " + str(self.depth), True, (255, 255, 255))
         compute_time_title = font.render("Tiempo de Computo: " + str(round(self.computation_time, 7)), True, (255, 255, 255))
@@ -69,9 +72,10 @@ class SearchGUI:
                 self.tablero[move.row][move.column] = self.tablero[move.row][move.column]
             else:
                 self.screen.blit(self.mandalorian, (self.mandalorian_moves[-1].column*40, self.mandalorian_moves[-1].row*40))
-            self.screen.blit(nodes, (450, 100))
-            self.screen.blit(depth_title, (450, 150))
-            self.screen.blit(compute_time_title, (450, 200))
-            self.screen.blit(cost, (450, 250))
+            self.screen.blit(title, (450, 50))
+            self.screen.blit(nodes, (450, 120))
+            self.screen.blit(depth_title, (450, 190))
+            self.screen.blit(compute_time_title, (450, 260))
+            self.screen.blit(cost, (450, 340))
             pygame.display.flip()
             time.sleep(1)

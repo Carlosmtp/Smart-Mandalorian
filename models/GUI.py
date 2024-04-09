@@ -105,7 +105,7 @@ class GUI:
             search_results = GreedySearch(self.world)
         elif selected_algorithm == "A*":
             search_results = AStarSearch(self.world)
-        search = SearchGUI(self.lbl_file_name.cget("text"), search_results)
+        search = SearchGUI(self.lbl_file_name.cget("text"), search_results, selected_algorithm)
         self.master.withdraw()
         search.draw_tablero()
         self.master.deiconify()
