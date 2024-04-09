@@ -2,7 +2,7 @@ import queue
 import time
 from Mandalorian import Mandalorian
 from World import World
-import Funciones
+from Funciones import is_grogu, reconstruct_solution
 
 # Este archivo contiene la implementación correspondiente a los
 # algoritmos de búsqueda no informada: BFS, DFS, UCS
@@ -13,34 +13,64 @@ import Funciones
 
 def BreadthFirstSearch(world):
     root = Mandalorian(world, None,  None, 0, 0, 0)
-    tree = queue.Queue()
-    tree.put(root)
+    tree = []
+    tree.append(root)
     explored = set()
     expanded_nodes = 0
     start_time = time.time()
-    while not tree.empty():
-        current = tree.get()
-        if Funciones.is_grogu(current, world):
-            path = []
-            cost = 0
-            while current.parent is not None:
-                path.append(current.current_position)
-                cost += current.cost
-                current = current.parent
-            path.append(current.current_position)
-            path.reverse()
+    while tree:
+        current = tree.pop(0)
+        if is_grogu(current, world):
             end_time = time.time()
+            path, cost = reconstruct_solution(current)
             computation_time = end_time - start_time
             return path, expanded_nodes, len(path)-1, computation_time, cost
         else:
             for next in current.possible_moves():
                 if next not in explored:
                     expanded_nodes += 1
-                    tree.put(next)
+                    tree.append(next)
                     explored.add(next)
 
 def UniformCostSearch(world):
-    return
+    root = Mandalorian(world, None,  None, 0, 0, 0)
+    tree = []
+    tree.append(root)
+    explored = set()
+    expanded_nodes = 0
+    start_time = time.time()
+    while tree:
+        tree.sort(key=lambda x: x.cost)
+        current = tree.pop(0)
+        if is_grogu(current, world):
+            end_time = time.time()
+            path, cost = reconstruct_solution(current)
+            computation_time = end_time - start_time
+            return path, expanded_nodes, len(path)-1, computation_time, cost
+        else:
+            for next in current.possible_moves():
+                if next not in explored:
+                    expanded_nodes += 1
+                    tree.append(next)
+                    explored.add(next)
 
 def DepthFirstSearch(world):
-    return
+    root = Mandalorian(world, None,  None, 0, 0, 0)
+    tree = []
+    tree.append(root)
+    explored = set()
+    expanded_nodes = 0
+    start_time = time.time()
+    while tree:
+        current = tree.pop()
+        if is_grogu(current, world):
+            end_time = time.time()
+            path, cost = reconstruct_solution(current)
+            computation_time = end_time - start_time
+            return path, expanded_nodes, len(path)-1, computation_time, cost
+        else:
+            for next in current.possible_moves():
+                if next not in explored:
+                    expanded_nodes += 1
+                    tree.append(next)
+                    explored.add(next)
