@@ -11,6 +11,7 @@ class SearchGUI:
         self.grogu = pygame.transform.scale(pygame.image.load('../images/grogu.png'), (40, 40))
         self.mandalorian = pygame.transform.scale(pygame.image.load('../images/mandalorian.png'), (40, 40))
         self.ship = pygame.transform.scale(pygame.image.load('../images/ship.png'), (40, 40))
+        self.boarded_ship = pygame.transform.scale(pygame.image.load('../images/boarded_ship.png'), (40, 40))
         self.enemy = pygame.transform.scale(pygame.image.load('../images/enemy.png'), (40, 40))
         self.background = pygame.image.load('../images/search_background.png')
         self.screen = pygame.display.set_mode((800,400))
@@ -27,6 +28,7 @@ class SearchGUI:
     def draw_tablero(self):
         pygame.display.set_caption("Búsqueda")
         move_index = 0
+        ship_trip = 0
         font = pygame.font.Font(None, 30)  
         nodes = font.render("Nodos Expandidos: " + str(self.expanded_nodes), True, (255, 255, 255))  
         depth_title = font.render("Profundidad: " + str(self.depth), True, (255, 255, 255))
@@ -55,6 +57,13 @@ class SearchGUI:
                     
             if move_index < len(self.mandalorian_moves):
                 move = self.mandalorian_moves[move_index]
+                if self.tablero[move.row][move.column] == 3:
+                    self.mandalorian = self.boarded_ship
+                    self.ship = self.empty
+                if self.ship == self.empty:
+                    ship_trip += 1
+                if ship_trip == 10:
+                    self.mandalorian = pygame.transform.scale(pygame.image.load('../images/mandalorian.png'), (40, 40))
                 self.screen.blit(self.mandalorian, (move.column*40, move.row*40))
                 move_index += 1
                 self.tablero[move.row][move.column] = self.tablero[move.row][move.column]
