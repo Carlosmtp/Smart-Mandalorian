@@ -144,27 +144,28 @@ class Mandalorian:
         down_cost = self.cost+self.calculate_cost(position.move_down())
         left_cost = self.cost+self.calculate_cost(position.move_left())
         right_cost = self.cost+self.calculate_cost(position.move_right())
-        
-        if world.is_within_bounds(position.move_up()) and not world.is_wall(position.move_up()):
-            new_mandalorian = Mandalorian(world, self, 0, self.getDepth() + 1, up_cost, new_fuel)
-            new_mandalorian.current_position = position.move_up()
-            new_mandalorian.operator = 1
-            moves.append(new_mandalorian)
-        if world.is_within_bounds(position.move_down()) and not world.is_wall(position.move_down()):
-            new_mandalorian = Mandalorian(world, self, 0, self.getDepth() + 1, down_cost, new_fuel)
-            new_mandalorian.current_position = position.move_down()
-            new_mandalorian.operator = 2
+        if world.is_within_bounds(position.move_right()) and not world.is_wall(position.move_right()):
+            new_mandalorian = Mandalorian(world, self, 0, self.getDepth() + 1, right_cost, new_fuel)
+            new_mandalorian.current_position = position.move_right()
+            new_mandalorian.operator = 4
             moves.append(new_mandalorian)
         if world.is_within_bounds(position.move_left()) and not world.is_wall(position.move_left()):
             new_mandalorian = Mandalorian(world, self, 0, self.getDepth() + 1, left_cost, new_fuel)
             new_mandalorian.current_position = position.move_left()
             new_mandalorian.operator = 3
             moves.append(new_mandalorian)
-        if world.is_within_bounds(position.move_right()) and not world.is_wall(position.move_right()):
-            new_mandalorian = Mandalorian(world, self, 0, self.getDepth() + 1, right_cost, new_fuel)
-            new_mandalorian.current_position = position.move_right()
-            new_mandalorian.operator = 4
+        if world.is_within_bounds(position.move_down()) and not world.is_wall(position.move_down()):
+            new_mandalorian = Mandalorian(world, self, 0, self.getDepth() + 1, down_cost, new_fuel)
+            new_mandalorian.current_position = position.move_down()
+            new_mandalorian.operator = 2
             moves.append(new_mandalorian)
+        if world.is_within_bounds(position.move_up()) and not world.is_wall(position.move_up()):
+            new_mandalorian = Mandalorian(world, self, 0, self.getDepth() + 1, up_cost, new_fuel)
+            new_mandalorian.current_position = position.move_up()
+            new_mandalorian.operator = 1
+            moves.append(new_mandalorian)
+        
+            
         return moves
     
     def calculate_cost(self, position):
