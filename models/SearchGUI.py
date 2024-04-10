@@ -53,7 +53,7 @@ class SearchGUI:
         title = font.render(self.algo.upper(), True, (255, 255, 255))  
         tree = font.render("Nodos del Arbol: " + str(self.tree_nodes), True, (255, 255, 255))
         expanded = font.render("Nodos Expandidos: " + str(self.expanded_nodes), True, (255, 255, 255))  
-        depth_title = font.render("Profundidad: " + str(self.depth), True, (255, 255, 255))
+        depth_title = font.render("Profundidad Meta: " + str(self.depth), True, (255, 255, 255))
         compute_time_title = font.render("Tiempo de Computo: " + str(round(self.computation_time, 7)), True, (255, 255, 255))
         cost = font.render("Costo: " + str(self.cost), True, (255, 255, 255))
         while True:

@@ -1,6 +1,5 @@
 import time
 from Mandalorian import Mandalorian
-from Funciones import is_grogu, reconstruct_solution
 
 def BreadthFirstSearch(world):
     """
@@ -27,11 +26,8 @@ def BreadthFirstSearch(world):
     while tree:
         current = tree.pop(0)
         expanded_nodes += 1
-        if is_grogu(current, world):
-            end_time = time.time()
-            path, cost = reconstruct_solution(current)
-            computation_time = end_time - start_time
-            return path, tree_nodes, expanded_nodes, len(path), computation_time, cost
+        if current.found_grogu():
+            return current.solution(),tree_nodes, expanded_nodes, current.depth, time.time()-start_time, current.cost
         else:
             for next in current.possible_moves():
                 if next not in explored:
@@ -65,11 +61,8 @@ def UniformCostSearch(world):
         tree.sort(key=lambda x: x.cost)
         current = tree.pop(0)
         expanded_nodes += 1
-        if is_grogu(current, world):
-            end_time = time.time()
-            path, cost = reconstruct_solution(current)
-            computation_time = end_time - start_time
-            return path, tree_nodes, expanded_nodes, len(path), computation_time, cost
+        if current.found_grogu():
+            return current.solution(), tree_nodes, expanded_nodes, current.depth, time.time()-start_time, current.cost
         else:
             for next in current.possible_moves():
                 if next not in explored:
@@ -104,11 +97,8 @@ def DepthFirstSearch(world):
         current = tree.pop()
         expanded_nodes += 1
         explored_in_branch = set()
-        if is_grogu(current, world):
-            end_time = time.time()
-            path, cost = reconstruct_solution(current)
-            computation_time = end_time - start_time
-            return path, tree_nodes, expanded_nodes, len(path), computation_time, cost
+        if current.found_grogu():
+            return current.solution(), tree_nodes, expanded_nodes, current.depth, time.time()-start_time, current.cost
         else:
             for next in current.possible_moves():
                 if next not in explored and next not in explored_in_branch:
