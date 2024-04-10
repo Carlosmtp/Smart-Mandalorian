@@ -139,27 +139,31 @@ class Mandalorian:
             self.world.remove_ship()
         if self.in_ship:
             new_fuel = self.fuel - 1
-            
-        up_cost = self.calculate_cost(position.move_up())
-        down_cost = self.calculate_cost(position.move_down())
-        left_cost = self.calculate_cost(position.move_left())
-        right_cost = self.calculate_cost(position.move_right())
+        
+        up_cost = self.cost+self.calculate_cost(position.move_up())
+        down_cost = self.cost+self.calculate_cost(position.move_down())
+        left_cost = self.cost+self.calculate_cost(position.move_left())
+        right_cost = self.cost+self.calculate_cost(position.move_right())
         
         if world.is_within_bounds(position.move_up()) and not world.is_wall(position.move_up()):
             new_mandalorian = Mandalorian(world, self, 0, self.getDepth() + 1, up_cost, new_fuel)
             new_mandalorian.current_position = position.move_up()
+            new_mandalorian.operator = 1
             moves.append(new_mandalorian)
         if world.is_within_bounds(position.move_down()) and not world.is_wall(position.move_down()):
             new_mandalorian = Mandalorian(world, self, 0, self.getDepth() + 1, down_cost, new_fuel)
             new_mandalorian.current_position = position.move_down()
+            new_mandalorian.operator = 2
             moves.append(new_mandalorian)
         if world.is_within_bounds(position.move_left()) and not world.is_wall(position.move_left()):
             new_mandalorian = Mandalorian(world, self, 0, self.getDepth() + 1, left_cost, new_fuel)
             new_mandalorian.current_position = position.move_left()
+            new_mandalorian.operator = 3
             moves.append(new_mandalorian)
         if world.is_within_bounds(position.move_right()) and not world.is_wall(position.move_right()):
             new_mandalorian = Mandalorian(world, self, 0, self.getDepth() + 1, right_cost, new_fuel)
             new_mandalorian.current_position = position.move_right()
+            new_mandalorian.operator = 4
             moves.append(new_mandalorian)
         return moves
     
@@ -178,6 +182,31 @@ class Mandalorian:
         elif self.world.is_enemy(position):
             return 5
         return 1
+    
+    def found_grogu(self):
+        """
+        Verifica si el Mandalorian ha encontrado a Grogu.
+
+        Returns:
+            bool: True si el Mandalorian ha encontrado a Grogu, False en caso contrario.
+        """
+        return self.current_position == self.world.grogu_position
+    
+    def solution(self):
+        """
+        Reconstruye la solución a partir del nodo meta.
+
+        Returns:
+            list[Position]: La lista de posiciones en el camino.
+        """
+        path = []
+        current = self
+        while current.parent is not None:
+            path.append(current.current_position)
+            current = current.parent
+        path.append(current.current_position)
+        path.reverse()
+        return path
 
     def __eq__(self, other):
         """
