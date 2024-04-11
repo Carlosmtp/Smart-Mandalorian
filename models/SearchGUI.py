@@ -21,14 +21,14 @@ class SearchGUI:
         """
         os.environ['SDL_VIDEO_CENTERED'] = '1'
         pygame.init()
-        self.empty = pygame.transform.scale(pygame.image.load('../images/empty.png'), (40, 40))
-        self.wall = pygame.transform.scale(pygame.image.load('../images/wall.png'), (40, 40))
-        self.grogu = pygame.transform.scale(pygame.image.load('../images/grogu.png'), (40, 40))
-        self.mandalorian = pygame.transform.scale(pygame.image.load('../images/mandalorian.png'), (40, 40))
-        self.ship = pygame.transform.scale(pygame.image.load('../images/ship.png'), (40, 40))
-        self.boarded_ship = pygame.transform.scale(pygame.image.load('../images/boarded_ship.png'), (40, 40))
-        self.enemy = pygame.transform.scale(pygame.image.load('../images/enemy.png'), (40, 40))
-        self.background = pygame.image.load('../images/search_background.png')
+        self.empty = pygame.transform.scale(pygame.image.load('./images/empty.png'), (40, 40))
+        self.wall = pygame.transform.scale(pygame.image.load('./images/wall.png'), (40, 40))
+        self.grogu = pygame.transform.scale(pygame.image.load('./images/grogu.png'), (40, 40))
+        self.mandalorian = pygame.transform.scale(pygame.image.load('./images/mandalorian.png'), (40, 40))
+        self.ship = pygame.transform.scale(pygame.image.load('./images/ship.png'), (40, 40))
+        self.boarded_ship = pygame.transform.scale(pygame.image.load('./images/boarded_ship.png'), (40, 40))
+        self.enemy = pygame.transform.scale(pygame.image.load('./images/enemy.png'), (40, 40))
+        self.background = pygame.image.load('./images/search_background.png')
         self.screen = pygame.display.set_mode((800,400))
         self.screen.fill((255,255,255))
         self.tablero = [[0 for _ in range(10)] for _ in range(10)]
@@ -102,7 +102,7 @@ class SearchGUI:
                 if self.ship == self.empty:
                     ship_trip += 1
                 if ship_trip == 10:
-                    self.mandalorian = pygame.transform.scale(pygame.image.load('../images/mandalorian.png'), (40, 40))
+                    self.mandalorian = pygame.transform.scale(pygame.image.load('./images/mandalorian.png'), (40, 40))
                 self.screen.blit(self.mandalorian, (move.column*40, move.row*40))
                 move_index += 1
                 self.tablero[move.row][move.column] = self.tablero[move.row][move.column]

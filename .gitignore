@@ -160,3 +160,5 @@ cython_debug/
 #.idea/
 
 *.exe:Zone.Identifier
+
+.idea/
