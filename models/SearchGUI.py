@@ -69,6 +69,9 @@ class SearchGUI:
                     if back_button.collidepoint(event.pos) and move_index == len(self.mandalorian_moves):
                         velocity = 0.5
                         move_index = 0
+                        ship_trip = 0
+                        self.mandalorian = pygame.transform.scale(pygame.image.load('../images/mandalorian.png'), (40, 40))
+                        self.ship = pygame.transform.scale(pygame.image.load('../images/ship.png'), (40, 40))
                 if event.type == pygame.MOUSEMOTION:
                     if back_button.collidepoint(event.pos) and move_index == len(self.mandalorian_moves):
                         back_button_color = (211, 255, 233)
