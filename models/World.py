@@ -83,18 +83,6 @@ class World:
         - True si la posición está en la ubicación de la nave, False de lo contrario.
         """
         return position == self.ship_position
-
-    def is_within_bounds(self, position):
-        """
-        Verifica si la posición dada está dentro de los límites del mundo.
-
-        Parámetros:
-        - position: Posición en el mundo.
-
-        Retorna:
-        - True si la posición está dentro de los límites del mundo, False de lo contrario.
-        """
-        return position.is_within(self.dimension)
     
     def is_wall(self, position):
         """
@@ -113,3 +101,16 @@ class World:
         Elimina la posición de la nave en el mundo.
         """
         self.ship_position = None
+        
+    def is_within_bounds(self, position):
+        """
+        Verifica si la posición dada está dentro de los límites del mundo.
+
+        Parámetros:
+        - position: Posición en el mundo.
+
+        Retorna:
+        - True si la posición está dentro de los límites del mundo, False de lo contrario.
+        """
+        return position.is_within(self.dimension)
+    

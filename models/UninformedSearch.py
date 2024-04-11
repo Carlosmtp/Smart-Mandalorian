@@ -16,7 +16,7 @@ def BreadthFirstSearch(world):
     - computation_time: El tiempo de computación utilizado para realizar la búsqueda.
     - cost: El costo total del camino encontrado.
     """
-    root = Mandalorian(world, None,  None, 0, 0, 0)
+    root = Mandalorian(world, None,  None, 0, 0, 0, None)
     tree = []
     tree.append(root)
     explored = set()
@@ -29,7 +29,7 @@ def BreadthFirstSearch(world):
         if current.found_grogu():
             return current.solution(),tree_nodes, expanded_nodes, current.depth, time.time()-start_time, current.cost
         else:
-            for next in current.possible_moves():
+            for next in current.expand('bfs'):
                 if next not in explored:
                     tree_nodes += 1
                     tree.append(next)
@@ -50,7 +50,7 @@ def UniformCostSearch(world):
     - computation_time: El tiempo de computación utilizado para realizar la búsqueda.
     - cost: El costo total del camino encontrado.
     """
-    root = Mandalorian(world, None,  None, 0, 0, 0)
+    root = Mandalorian(world, None,  None, 0, 0, 0, None)
     tree = []
     tree.append(root)
     explored = set()
@@ -64,7 +64,7 @@ def UniformCostSearch(world):
         if current.found_grogu():
             return current.solution(), tree_nodes, expanded_nodes, current.depth, time.time()-start_time, current.cost
         else:
-            for next in current.possible_moves():
+            for next in current.expand('ucs'):
                 if next not in explored:
                     tree_nodes += 1
                     tree.append(next)
@@ -85,7 +85,7 @@ def DepthFirstSearch(world):
     - computation_time: El tiempo de computación utilizado para realizar la búsqueda.
     - cost: El costo total del camino encontrado.
     """
-    root = Mandalorian(world, None,  None, 0, 0, 0)
+    root = Mandalorian(world, None,  None, 0, 0, 0, None)
     tree = []
     tree.append(root)
     explored = set()
@@ -100,9 +100,10 @@ def DepthFirstSearch(world):
         if current.found_grogu():
             return current.solution(), tree_nodes, expanded_nodes, current.depth, time.time()-start_time, current.cost
         else:
-            for next in current.possible_moves():
+            for next in current.expand('dfs'):
                 if next not in explored and next not in explored_in_branch:
                     tree_nodes += 1
                     tree.append(next)
                     explored_in_branch.add(next)
             explored.add(current)
+            

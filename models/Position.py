@@ -58,6 +58,18 @@ class Position:
         """
         filas, columnas = dimension
         return 0 <= self.row < filas and 0 <= self.column < columnas
+    
+    def manhattan_distance(self, other):
+        """
+        Calcula la distancia de Manhattan entre dos posiciones.
+
+        Args:
+            other (Position): La otra posición.
+
+        Returns:
+            int: La distancia de Manhattan entre las dos posiciones.
+        """
+        return abs(self.row - other.row) + abs(self.column - other.column)
 
     def __eq__(self, other):
         """
@@ -88,3 +100,4 @@ class Position:
             str: La representación en cadena de la posición.
         """
         return f"({self.row}, {self.column})"
+    

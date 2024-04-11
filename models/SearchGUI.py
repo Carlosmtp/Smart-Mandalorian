@@ -48,6 +48,7 @@ class SearchGUI:
         pygame.display.set_caption(self.algo.upper())
         move_index = 0
         ship_trip = 0
+        velocity = 0.5
         title = pygame.font.Font(None, 36)
         font = pygame.font.Font(None, 30)
         title = font.render(self.algo.upper(), True, (255, 255, 255))  
@@ -56,11 +57,27 @@ class SearchGUI:
         depth_title = font.render("Profundidad Meta: " + str(self.depth), True, (255, 255, 255))
         compute_time_title = font.render("Tiempo de Computo: " + str(round(self.computation_time, 7)), True, (255, 255, 255))
         cost = font.render("Costo: " + str(self.cost), True, (255, 255, 255))
+        back_button = pygame.Rect(450, 300, 230, 50) 
+        back_button_color = (155, 196, 188)
+        back_button_text = font.render("Reiniciar Recorrido", True, (0, 0, 0))
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                    return    
+                    return
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if back_button.collidepoint(event.pos) and move_index == len(self.mandalorian_moves):
+                        velocity = 0.5
+                        move_index = 0
+                if event.type == pygame.MOUSEMOTION:
+                    if back_button.collidepoint(event.pos) and move_index == len(self.mandalorian_moves):
+                        back_button_color = (211, 255, 233)
+                        pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_HAND)
+                    else:
+                        back_button_color = (155, 196, 188)
+                        pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_ARROW)
+                        
+                        
             for i in range(10):
                 for j in range(10):
                     if self.tablero[i][j] == 0 or self.tablero[i][j] == 2:
@@ -90,6 +107,9 @@ class SearchGUI:
                 move_index += 1
                 self.tablero[move.row][move.column] = self.tablero[move.row][move.column]
             else:
+                velocity = 0.1
+                pygame.draw.rect(self.screen, back_button_color, back_button)
+                self.screen.blit(back_button_text, (470, 315))
                 self.screen.blit(self.mandalorian, (self.mandalorian_moves[-1].column*40, self.mandalorian_moves[-1].row*40))
             self.screen.blit(title, (450, 40))
             self.screen.blit(tree, (450, 100))
@@ -98,4 +118,5 @@ class SearchGUI:
             self.screen.blit(compute_time_title, (450, 220))
             self.screen.blit(cost, (450, 260))
             pygame.display.flip()
-            time.sleep(1)
+            time.sleep(velocity)
+            
