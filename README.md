@@ -37,8 +37,14 @@ La información del mundo se representa por medio de los siguientes números:
 - Se Muestra una animación en la interfaz gráfica con el conjunto de movimientos realizados por el agente después de aplicar un algoritmo seleccionado.
 - Se muestra un reporte con información relevante como la cantidad de nodos expandidos, la profundidad del árbol, el tiempo de cómputo y el costo de la solución encontrada.
 
-### Para ejecutar:
+### Instalar dependencias:
+```shell
+pip install -r requirements.txt
 
+```
+
+### Para ejecutar: 
 ```shell
 python models/GUI.py
+
 ```
