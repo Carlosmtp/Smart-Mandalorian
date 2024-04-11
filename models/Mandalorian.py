@@ -95,8 +95,8 @@ class Mandalorian:
         Returns:
         float: La heurística para el problema de búsqueda.
         """
+        manhattan_mando_grogu = self.current_position.manhattan_distance(self.world.grogu_position)
         if self.world.ship_position is not None:
-            manhattan_mando_grogu = self.current_position.manhattan_distance(self.world.grogu_position)
             manhattan_mando_nave = self.current_position.manhattan_distance(self.world.ship_position)
             manhattan_nave_grogu = self.world.ship_position.manhattan_distance(self.world.grogu_position)
             if manhattan_nave_grogu <= 10:
@@ -105,9 +105,13 @@ class Mandalorian:
                 h1 = manhattan_mando_nave + manhattan_nave_grogu - 5
             return min(h1, manhattan_mando_grogu)
         elif self.in_ship:
-            return self.current_position.manhattan_distance(self.world.grogu_position) * 0.5
+            if manhattan_mando_grogu <= 10:
+                h1 = manhattan_mando_grogu * 0.5
+            else:
+                h1 = manhattan_mando_grogu - 5
+            return h1
         else:
-            return self.current_position.manhattan_distance(self.world.grogu_position)
+            return manhattan_mando_grogu
 
     def expand(self, algorithm):
         """
