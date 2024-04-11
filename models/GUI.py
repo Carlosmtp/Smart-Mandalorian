@@ -81,7 +81,7 @@ class GUI:
         """
         Abre un cuadro de diálogo para cargar un archivo de mundo.
         """
-        file_path = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt")], title="Seleccionar Archivo de Mundo", initialdir="../test")
+        file_path = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt")], title="Seleccionar Archivo de Mundo", initialdir="./test")
         if file_path:
             relative_path = os.path.relpath(file_path)
             self.lbl_file_name.config(text=relative_path)
