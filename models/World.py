@@ -1,4 +1,4 @@
-from Position import Position
+from .Position import Position
 class World:
     def __init__(self, file):
         """

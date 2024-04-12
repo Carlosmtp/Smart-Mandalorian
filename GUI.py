@@ -1,10 +1,10 @@
 import tkinter as tk
 from tkinter import filedialog
 from PIL import Image, ImageTk
-from World import World
-from SearchGUI import SearchGUI
-from UninformedSearch import *
-from InformedSearch import *
+from models.World import World
+from models.SearchGUI import SearchGUI
+from models.UninformedSearch import *
+from models.InformedSearch import *
 import os
 
 class GUI:
@@ -43,7 +43,7 @@ class GUI:
         self.master.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
         # Cargar imagen de fondo
-        self.background_image = Image.open("./images/background.png")
+        self.background_image = Image.open("images/background.png")
         self.background_image = self.background_image.resize((window_width, window_height), Image.BICUBIC)
         self.background_photo = ImageTk.PhotoImage(self.background_image)
         self.background_label = tk.Label(master, image=self.background_photo)

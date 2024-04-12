@@ -1,5 +1,5 @@
 import time
-from Mandalorian import Mandalorian
+from .Mandalorian import Mandalorian
 
 def GreedySearch(world):
     root = Mandalorian(world, None,  None, 0, 0, 0, None)

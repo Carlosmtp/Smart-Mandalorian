@@ -1,5 +1,5 @@
 import time
-from Mandalorian import Mandalorian
+from .Mandalorian import Mandalorian
 
 def BreadthFirstSearch(world):
     """
