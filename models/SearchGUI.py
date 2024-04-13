@@ -9,7 +9,7 @@ class SearchGUI:
 
         Args:
             path (str): La ruta del archivo de prueba.
-            search_results (tuple): Una tupla que contiene los resultados de la búsqueda.
+            search_results: Una lista que contiene los resultados de la búsqueda.
                 Los resultados deben estar en el siguiente orden:
                 - mandalorian_moves (list): Lista de movimientos del Mandalorian.
                 - tree_nodes (int): Número de nodos del arbol de búsqueda.
@@ -17,7 +17,7 @@ class SearchGUI:
                 - depth (int): Profundidad de la solución encontrada.
                 - computation_time (float): Tiempo de cómputo de la búsqueda.
                 - cost (int): Costo de la solución encontrada.
-            algorithm (str): El algoritmo de búsqueda utilizado.
+            algorithm (str): El algoritmo de búsqueda utilizado ('bfs', 'ucs','dfs', 'greedy'. 'astar').
         """
         os.environ['SDL_VIDEO_CENTERED'] = '1'
         pygame.init()

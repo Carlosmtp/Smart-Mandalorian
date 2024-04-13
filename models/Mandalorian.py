@@ -112,6 +112,20 @@ class Mandalorian:
             return h1
         else:
             return manhattan_mando_grogu
+        
+        
+    def simple_heuristic(self):
+        """
+        Calcula la heurística para el problema de búsqueda.
+        Args:
+        mando_pos (Position): La posición actual del Mandalorian.
+        grogu_pos (Position): La posición de Grogu.
+        ship_pos (Position): La posición de la nave.
+        
+        Returns:
+        float: La heurística para el problema de búsqueda.
+        """
+        return self.current_position.manhattan_distance(self.world.grogu_position)
 
     def expand(self, algorithm):
         """
