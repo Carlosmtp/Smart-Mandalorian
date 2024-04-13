@@ -45,6 +45,6 @@ pip install -r requirements.txt
 
 ### Para ejecutar: 
 ```shell
-python models/GUI.py
+python GUI.py
 
 ```
