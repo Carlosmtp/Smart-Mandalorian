@@ -12,7 +12,6 @@ def GreedySearch(world):
     while tree:
         tree.sort(key=lambda x: x.heuristic())
         current = tree.pop(0)
-        print(current.heuristic())
         expanded_nodes += 1
         if current.found_grogu():
             compute_time = time.time()-start_time
@@ -36,7 +35,6 @@ def AStarSearch(world):
     while tree:
         tree.sort(key=lambda x: x.heuristic() + x.cost)
         current = tree.pop(0)
-        print(current.heuristic())
         expanded_nodes += 1
         if current.found_grogu():
             compute_time = time.time()-start_time
